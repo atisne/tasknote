@@ -20,7 +20,9 @@ Usage
 	
 `tasknote <task_id> v`
 
-Actually, you can type anything after <task_id> that comes to mind: v, view, show, list, cat etc. I left it open since no other features are planned.
+**Delete Note:**
+	
+`tasknote <task_id> d`
 
 Configuration
 -------------
@@ -29,3 +31,7 @@ Save in a place like /usr/bin and flag as executable with sudo chmod a+x /usr/bi
 Be sure to edit the FOLDER var in the script. If it does not exist, you will be asked if you want to create it during the first run.
 
 You can also configure the EDITOR (default: vim), VIEWER (default: cat), as well as NOTEMSG, the annotation message appended to the task in taskwarrior.
+
+Todo
+----
+Add a Purge action to purge notes with no associated task (purged tasks, version 2.6.0 of taskwarrior)
