@@ -44,21 +44,21 @@ VIEWER=cat
 # FOLDER to store notes in. Must already exist.
 # If you sync tasks, FOLDER should be a location that syncs and is available to
 # other computers, i.e. ~/dropbox/tasknotes
-FOLDER=$( task _show | grep data\.location | cut -d '=' -f2 )/notes/
+FOLDER="$( task _show | grep data\.location | cut -d '=' -f2 )/notes/"
 # substitude ~ if data.location use it
 FOLDER="${FOLDER/#~/$HOME}"
 
 # Check for existence of $FOLDER
-if [ ! -d $FOLDER ]; then
+if [ ! -d "$FOLDER" ]; then
 	echo    "Notes folder '$FOLDER' does not exist."
 	echo -n "Shall I create it (y/n)? "
 	read answer
 	if [ $answer == "y" ]; then
 	  echo "Creating '$FOLDER'."
-	  mkdir -p $FOLDER;
+	  mkdir -p "$FOLDER"
 	else
-	  echo "Did NOT create $FOLDER. Exiting."
-	  exit 1;
+	  echo "Did NOT create '$FOLDER'. Exiting."
+	  exit 1
 	fi
 fi
 
@@ -82,12 +82,12 @@ uuid=`$TASKBIN $1 uuids`
 
 # build full path & file name to store notes in
 #  ensure FOLDER ends with a slash
-[ "${FOLDER: -1}" != "/" ] && FOLDER=$FOLDER/
+[ "${FOLDER: -1}" != "/" ] && FOLDER="$FOLDER/"
 file="$FOLDER$uuid$EXT"
 
 # determine if notes file already exists
 fileexists=0
-if [ -f $file ]; then
+if [ -f "$file" ]; then
   fileexists=1
 fi
 
@@ -97,10 +97,10 @@ if [ $# -gt 1 ]; then
       action=$2
       case $action in
           v)
-              $SHELL -c "$VIEWER $file"
+              $SHELL -c "$VIEWER \"$file\""
               ;;
           d)
-              $SHELL -c "rm $file"
+              $SHELL -c "rm \"$file\""
               $SHELL -c "$TASKBIN $1 denotate \"[tasknote]\""
               ;;
       esac
@@ -111,20 +111,20 @@ if [ $# -gt 1 ]; then
 fi
 
 #create/edit $file with editor
-$SHELL -c "$EDITOR $file"
+$SHELL -c "$EDITOR \"$file\"" || exit 1
 
 # Create a note message representing the first line of
 # the edited note file.
-if [ -s $file ]; then
+if [ -s "$file" ]; then
   # build the note message protecting single quotes
-  NOTEMSG="[tasknote] $( head -1 $file | sed -e "s,','\"'\"',g" )"
+  NOTEMSG="[tasknote] "$( head -1 "$file" | sed -e "s,','\"'\"',g" )
   # remove any previous annotation - we want only a single
   # tasknote annotation. Detection works through the
   # [tasknote] annotation prefix
   $SHELL -c "$TASKBIN $* denotate \"[tasknote]\""
   $SHELL -c "$TASKBIN $* annotate '$NOTEMSG'"
 else
-  [ -f $file ] && $SHELL -c "rm $file"
+  [ -f "$file" ] && $SHELL -c "rm \"$file\""
 fi
 
 exit 0
