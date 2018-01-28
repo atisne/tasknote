@@ -44,7 +44,9 @@ VIEWER=cat
 # FOLDER to store notes in. Must already exist.
 # If you sync tasks, FOLDER should be a location that syncs and is available to
 # other computers, i.e. ~/dropbox/tasknotes
-FOLDER=~/Dropbox/tasks/notes/
+FOLDER=$( task _show | grep data\.location | cut -d '=' -f2 )/notes/
+# substitude ~ if data.location use it
+FOLDER="${FOLDER/#~/$HOME}"
 
 # Check for existence of $FOLDER
 if [ ! -d $FOLDER ]; then
