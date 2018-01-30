@@ -71,8 +71,8 @@ EXT="txt"
 if [ $# -lt 1 -o $# -gt 2 ]; then
   echo "Usage:"
   echo "  New/Edit note: $0 <id>"
-  echo "  View note:     $0 <id> v"
-  echo "  Delete note:   $0 <id> d"
+  echo "  View note:     $0 <id> [v]iew"
+  echo "  Delete note:   $0 <id> [d]elete"
   exit 1
 fi
 
@@ -93,10 +93,10 @@ if [ $# -gt 1 ]; then
   if [ $fileexists = 1 ]; then
       action=$2
       case $action in
-          v)
+          v|view)
               $SHELL -c "$VIEWER \"$file\""
               ;;
-          d)
+          d|delete)
               $SHELL -c "rm \"$file\""
               $SHELL -c "$TASKBIN $1 denotate \"[tasknote]\""
               ;;
