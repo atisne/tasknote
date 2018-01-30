@@ -28,7 +28,7 @@ Configuration
 -------------
 Save in a place like /usr/bin and flag as executable with sudo chmod a+x /usr/bin/tasknote.
 
-Be sure to edit the FOLDER var in the script. If it does not exist, you will be asked if you want to create it during the first run.
+You can adjust the FOLDER variable (tasknotes location) in the script. If the path does not exist, you will be asked if you want to create it during the first run.
 
 You can also configure the EDITOR (default: vim), VIEWER (default: cat), as well as NOTEMSG, the annotation message appended to the task in taskwarrior.
 

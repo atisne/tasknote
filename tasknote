@@ -41,10 +41,12 @@ EDITOR=vim
 TASKBIN=task
 VIEWER=cat
 
-# FOLDER to store notes in. Must already exist.
+# FOLDER to store notes in.
 # If you sync tasks, FOLDER should be a location that syncs and is available to
 # other computers, i.e. ~/dropbox/tasknotes
-FOLDER="$( task _show | grep data\.location | cut -d '=' -f2 )/notes/"
+# by default, store them in the task data location
+# feel free to change it
+FOLDER="$( task _show | grep data\.location | cut -d '=' -f2 )/tasknotes"
 # substitude ~ if data.location use it
 FOLDER="${FOLDER/#~/$HOME}"
 
@@ -63,10 +65,7 @@ if [ ! -d "$FOLDER" ]; then
 fi
 
 # Preferred extension for tasknotes
-EXT=".txt"
-
-# Message that gets annotated to the task to indicate that notes exist
-NOTEMSG="See Notes File"
+EXT="txt"
 
 # Display usage if task number not supplied on cli
 if [ $# -lt 1 -o $# -gt 2 ]; then
@@ -81,9 +80,7 @@ fi
 uuid=`$TASKBIN $1 uuids`
 
 # build full path & file name to store notes in
-#  ensure FOLDER ends with a slash
-[ "${FOLDER: -1}" != "/" ] && FOLDER="$FOLDER/"
-file="$FOLDER$uuid$EXT"
+file="$FOLDER/$uuid.$EXT"
 
 # determine if notes file already exists
 fileexists=0
